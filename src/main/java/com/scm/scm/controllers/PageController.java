@@ -12,4 +12,30 @@ public class PageController {
         System.out.println("Home Page");
         return "home"; 
     }
+
+
+    @RequestMapping("/about")
+    public String about() {
+        return "about"; 
+    }
+
+    @RequestMapping("/services")
+    public String services() {
+        return "services"; 
+    }
+
+    @RequestMapping("/contact")
+    public String contact() {
+        return "contact"; 
+    }
+
+    @RequestMapping("/login")
+    public String login() {
+        return "login"; 
+    }
+
+    @RequestMapping("/register")
+    public String register() {
+        return "register"; 
+    }
 }

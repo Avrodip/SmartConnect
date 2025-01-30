@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService{
       user_old.setAbout(user.getAbout());
       user_old.setPhoneNumber(user.getPhoneNumber());
       user_old.setProfilePic(user.getProfilePic());
-      user_old.setEnabled(user.getEnabled());
+      user_old.setEnabled(user.isEnabled());
       user_old.setEmailVerified(user.getEmailVerified());
       user_old.setPhoneVerified(user.getPhoneVerified());
       user_old.setProvider(user.getProvider());

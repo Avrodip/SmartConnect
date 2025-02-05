@@ -33,7 +33,6 @@ public class UserServiceImpl implements UserService{
     public Optional<User> getUserById(String userId) {
         return userRepo.findById(userId);
     }
-
     @Override
     public Optional<User> updateUser(User user) {
         //user old is the current user data fetched from the databse

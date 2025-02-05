@@ -48,10 +48,9 @@ public class User implements UserDetails{
     @Column(columnDefinition = "TEXT")
     private String profilePic;
     private String phoneNumber;
-
     //user information
     @Getter(value=AccessLevel.NONE)
-    private Boolean enabled =false;
+    private Boolean enabled =true;
     private Boolean emailVerified = false;
     private Boolean phoneVerified = false;
 
@@ -88,5 +87,23 @@ public class User implements UserDetails{
     @Override
     public String getPassword(){
         return this.password;
+    }
+
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 }

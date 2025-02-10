@@ -50,7 +50,7 @@ public class PageController {
         return "contact";
     }
 
-    @RequestMapping("/login")
+    @GetMapping("/login")
     public String login() {
         return "login";
     }

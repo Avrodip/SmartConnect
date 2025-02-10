@@ -25,12 +25,13 @@
             <p class="font-normal text-gray-700 dark:text-gray-400">
               Start managing contacts on cloud ...
             </p>
+            <div class="text-red-600 text-center my-3" th:if="${param.error}">Invalid username and password</div>
+            <div class="text-green-600 text-center my-3" th:if="${param.logout}">You have been logged out</div>
 
             <form
             method="post"
-            data-th-action="@{/authenticate}" 
-            class="mt-5"
-            >
+            th:action="@{'/authenticate'}" 
+            class="mt-5">
               <!-- username field -->
               <div class="mb-3">
                 <label

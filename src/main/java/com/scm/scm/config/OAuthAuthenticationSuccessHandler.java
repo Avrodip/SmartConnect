@@ -37,101 +37,65 @@ public class OAuthAuthenticationSuccessHandler implements AuthenticationSuccessH
             Authentication authentication) throws IOException, ServletException {
         logger.info("OAuthAuthenticationSuccessHandler");
 
-        // identify the provider
+        // Identify the provider
+        var oauth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
+        String authorizedClientRegistrationId = oauth2AuthenticationToken.getAuthorizedClientRegistrationId();
 
-        // var oauth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
-        // String authorizedClientRegistrationId = oauth2AuthenticationToken.getAuthorizedClientRegistrationId();
+        logger.info("Provider: " + authorizedClientRegistrationId);
 
-        // logger.info(authorizedClientRegistrationId);
+        var oauthUser = (DefaultOAuth2User) authentication.getPrincipal();
 
-        // var oauthUser = (DefaultOAuth2User) authentication.getPrincipal();
+        oauthUser.getAttributes().forEach((key, value) -> logger.info(key + ": " + value));
 
-        // oauthUser.getAttributes().forEach((key, value) -> {
-        //     logger.info(key + ":" + value);
-        // });
+        User user = new User();
+        user.setUserId(UUID.randomUUID().toString());
+        user.setEmailVerified(true);
+        user.setEnabled(true);
+        user.setPassword("dummy");
 
-        // User user = new User();
-        // user.setUserId(UUID.randomUUID().toString());
-        // // user.setRoleList(List.of(AppConstants.ROLE_USER));
-        // user.setEmailVerified(true);
-        // user.setEnabled(true);
-        // user.setPassword("dummy");
+        if (authorizedClientRegistrationId.equalsIgnoreCase("google")) {
+            // Google attributes (ensure null checks)
+            user.setEmail(oauthUser.getAttribute("email") != null ? oauthUser.getAttribute("email").toString()
+                    : "no-email@google.com");
+            user.setProfilePic(
+                    oauthUser.getAttribute("picture") != null ? oauthUser.getAttribute("picture").toString() : "");
+            user.setName(
+                    oauthUser.getAttribute("name") != null ? oauthUser.getAttribute("name").toString() : "Google User");
+            user.setProviderUserId(oauthUser.getName());
+            user.setProvider(Providers.GOOGLE);
+            user.setAbout("This account is created using Google.");
 
-        // if (authorizedClientRegistrationId.equalsIgnoreCase("google")) {
+        } else if (authorizedClientRegistrationId.equalsIgnoreCase("github")) {
+            // GitHub attributes (ensure null checks)
+            String email = oauthUser.getAttribute("email") != null ? oauthUser.getAttribute("email").toString()
+                    : oauthUser.getAttribute("login").toString() + "@github.com";
+            String picture = oauthUser.getAttribute("avatar_url") != null
+                    ? oauthUser.getAttribute("avatar_url").toString()
+                    : "";
+            String name = oauthUser.getAttribute("login") != null ? oauthUser.getAttribute("login").toString()
+                    : "GitHub User";
+            String providerUserId = oauthUser.getName();
 
-        //     // google
-        //     // google attributes
-        //     user.setEmail(oauthUser.getAttribute("email").toString());
-        //     user.setProfilePic(oauthUser.getAttribute("picture").toString());
-        //     user.setName(oauthUser.getAttribute("name").toString());
-        //     user.setProviderUserId(oauthUser.getName());
-        //     user.setProvider(Providers.GOOGLE);
-        //     user.setAbout("This account is created using google..");
+            user.setEmail(email);
+            user.setProfilePic(picture);
+            user.setName(name);
+            user.setProviderUserId(providerUserId);
+            user.setProvider(Providers.GITHUB);
+            user.setAbout("This account is created using GitHub.");
 
-
-        // } else if (authorizedClientRegistrationId.equalsIgnoreCase("github")) {
-
-        //     // github
-        //     // github attributes
-        //     String email = oauthUser.getAttribute("email") !=null ? oauthUser.getAttribute("email").toString() : oauthUser.getAttribute("login").toString()+"@gmail.com";
-        //     String picture = oauthUser.getAttribute("avatar_url").toString();
-        //     String name = oauthUser.getAttribute("login").toString();
-        //     String providerUserId = oauthUser.getName();
-
-        //     user.setEmail(email);
-        //     user.setProfilePic(picture);
-        //     user.setName(name);
-        //     user.setProviderUserId(providerUserId);
-        //     user.setProvider(Providers.GITHUB);
-        //     user.setAbout("This account is created using github..");
-
-        // } else {
-        //     logger.info("OAuthAuthenticationSuccessHandler: Unknown Provider");
-        // }
-
-        // //save the user in database
-        // User user2 = userRepo.findByEmail(user.getEmail()).orElse(null);
-        // if (user2 == null) {
-        // userRepo.save(user);
-        // }
-
-        // save data in database
-        DefaultOAuth2User user = (DefaultOAuth2User) authentication.getPrincipal();
-        // logger.info(user.getName());
-
-        // user.getAttributes().forEach((key,value)->{
-        // logger.info("{} => {}",key,value);
-        // });
-        // logger.info(user.getAuthorities().toString());
-
-        String email = user.getAttribute("email").toString();
-        String name = user.getAttribute("name").toString();
-        String picture = user.getAttribute("picture").toString();
-
-        // create user and save in database
-
-        User user1 = new User();
-        user1.setEmail(email);
-        user1.setName(name);
-        user1.setProfilePic(picture);
-        user1.setPassword("password");
-        user1.setUserId(UUID.randomUUID().toString());
-        user1.setProvider(Providers.GOOGLE);
-        user1.setEnabled(true);
-        user1.setEmailVerified(true);
-        user1.setProviderUserId(user.getName());
-        user1.setRolesList(List.of(AppConstants.ROLE_USER));
-        user1.setAbout("This account is created using google..");
-
-        User user2 = userRepo.findByEmail(email).orElse(null);
-        if (user2 == null) {
-        userRepo.save(user1);
-        logger.info("User saved " + email);
+        } else {
+            logger.info("OAuthAuthenticationSuccessHandler: Unknown Provider");
         }
 
-        // response.sendRedirect("/home");
-        new DefaultRedirectStrategy().sendRedirect(request, response, "/user/profile");
+        // Save the user in the database if not already present
+        User existingUser = userRepo.findByEmail(user.getEmail()).orElse(null);
+        if (existingUser == null) {
+            userRepo.save(user);
+            logger.info("User saved: " + user.getEmail());
+        }
 
+        // Redirect to profile page
+        new DefaultRedirectStrategy().sendRedirect(request, response, "/user/profile");
     }
 
 }

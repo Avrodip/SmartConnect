@@ -47,7 +47,7 @@ public class SecurityConfig {
             .formLogin(formLogin -> formLogin
                 .loginPage("/login")  // Ensure this page exists
                 .loginProcessingUrl("/authenticate")  // Spring Security will handle this POST request
-                .successForwardUrl("/user/dashboard")
+                .successForwardUrl("/user/profile")
                 // .failureForwardUrl("/login?error=true")
                 .usernameParameter("email")
                 .passwordParameter("password")

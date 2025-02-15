@@ -1,12 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>This is user dashboard</h1>
-    <a data-th-href="@{'do-logout'}">Logout</a>
-</body>
+<html
+  lang="en"
+  th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}"
+>
+  <head>
+    <title data-th-text="${loggedInUser.name+'|Dashboard'}">Dashboard page</title>
+  </head>
+  <body>
+    <div id="content">
+
+        <!-- sidebar -->
+          <!-- user is logged in :sidebar -->
+     <div th:if="${loggedInUser}">
+        <div th:replace="~{user/sidebar::sidebar}"></div>
+
+        
+      <div class="pl-64 pt-20" style="height: 1000px">
+        <div class="flex justify-center flex-col items-center">
+          <h1 class="text-5xl">Welcome to Dashboard</h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt,
+            eligendi unde! Cupiditate odio natus corrupti quam debitis dolore
+            quaerat, voluptatem rem amet quae, iure totam optio similique vitae,
+            placeat voluptates!
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      console.log("This is a Dasboard page");
+    </script>
+  </body>
 </html>

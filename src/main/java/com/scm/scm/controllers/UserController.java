@@ -28,7 +28,7 @@ public class UserController {
 
 
     // user dashboard page
-    @PostMapping(value = "/dashboard")
+    @RequestMapping(value = "/dashboard")
     public String userDashboard() {
         System.out.println("User dashboard");
         return "user/dashboard";

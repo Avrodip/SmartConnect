@@ -1,7 +1,6 @@
 package com.scm.scm.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -22,6 +21,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Contact {
     @Id
+    private String id;
     private String name;
     private String email;
     private String phoneNumber;
@@ -29,17 +29,15 @@ public class Contact {
     private String picture;
     @Column(columnDefinition = "TEXT")
     private String description;
-    private boolean favourite = false;
-    private String facebookLink;
-    private String instagramLink;
-
+    private boolean favorite = false;
+    private String websiteLink;
+    private String linkedInLink;
 
     @ManyToOne
     private User user;
 
-    
     @OneToMany(mappedBy = "contact",cascade = CascadeType.ALL,fetch = FetchType.EAGER,orphanRemoval = true)
-    private List<SocialLink>links=new ArrayList<>();
+    private List<SocialLink> links = new ArrayList<>();
 
-    // private List<SocialLink> socialLinks=new ArrayList<>();
+
 }

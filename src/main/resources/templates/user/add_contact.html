@@ -22,8 +22,7 @@
             <div
               class="card block p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
             >
-
-            <div data-th-replace="message::messagebox"></div>
+              <div data-th-replace="~{message::messagebox}"></div>
               <h1 class="text-2xl font-semibold">Add New Contact</h1>
               <p class="text-gray-500">
                 This contact will be stored on cloud, you can directly email
@@ -36,6 +35,7 @@
                 data-th-action="@{'/user/contacts/add'}"
                 data-th-object="${contactForm}"
                 method="post"
+                enctype="multipart/form-data"
               >
                 <!-- name form -->
                 <div class="mb-3">
@@ -116,12 +116,12 @@
                     />
                   </div>
                   <p
-                  class="text-red-500"
-                  data-th-if="${#fields.hasErrors('phoneNumber')}"
-                  data-th-errors="*{phoneNumber}"
-                >
-                  Invalid Email
-                </p>
+                    class="text-red-500"
+                    data-th-if="${#fields.hasErrors('phoneNumber')}"
+                    data-th-errors="*{phoneNumber}"
+                  >
+                    Invalid Email
+                  </p>
                 </div>
 
                 <!-- address -->
@@ -138,12 +138,12 @@
                     placeholder="Address of the contact"
                   ></textarea>
                   <p
-                  class="text-red-500"
-                  data-th-if="${#fields.hasErrors('address')}"
-                  data-th-errors="*{address}"
-                >
-                  Invalid Address
-                </p>
+                    class="text-red-500"
+                    data-th-if="${#fields.hasErrors('address')}"
+                    data-th-errors="*{address}"
+                  >
+                    Invalid Address
+                  </p>
                 </div>
 
                 <!-- description -->
@@ -209,10 +209,12 @@
                     >Contact Image</label
                   >
                   <input
+                    id="image_file_input"
                     class="block w-full mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                    id="small_size"
+                    data-th-field="*{contactImage}"
                     type="file"
                   />
+                  <img src="" class="max-h-52 mx-auto rounded-lg shadow m-3" id="upload_image_preview" alt="" />
                 </div>
 
                 <!-- favourite checkbox -->
@@ -249,6 +251,7 @@
         </div>
       </div>
     </div>
+    <script th:src="@{/js/admin.js}"></script>
     <script>
       console.log("this is dashboard page");
     </script>

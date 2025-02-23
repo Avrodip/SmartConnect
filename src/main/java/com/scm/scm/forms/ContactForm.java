@@ -33,6 +33,8 @@ public class ContactForm {
     private boolean favorite;
     private String websiteLink;
     private String linkedInLink;
-    private MultipartFile profileImage;
+
+    //will create an annotation
+    private MultipartFile contactImage;
 
 }

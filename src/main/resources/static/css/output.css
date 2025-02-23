@@ -657,6 +657,10 @@ video {
   grid-column: span 4 / span 4;
 }
 
+.m-3 {
+  margin: 0.75rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -665,6 +669,10 @@ video {
 .my-3 {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem;
 }
 
 .mb-2 {
@@ -723,10 +731,6 @@ video {
   margin-top: 2rem;
 }
 
-.mb-1 {
-  margin-bottom: 0.25rem;
-}
-
 .block {
   display: block;
 }
@@ -781,6 +785,10 @@ video {
 
 .h-screen {
   height: 100vh;
+}
+
+.max-h-52 {
+  max-height: 13rem;
 }
 
 .w-1\/2 {
@@ -1205,6 +1213,12 @@ video {
 .shadow-sm {
   --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.shadow {
+  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 

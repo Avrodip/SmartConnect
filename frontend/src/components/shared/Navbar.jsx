@@ -50,7 +50,7 @@ const Navbar = () => {
                       />
                     </Avatar>
                     <div>
-                      <h4 className="font-medium">Prachi Yadav</h4>
+                      <h4 className="font-medium">Avrodip Das</h4>
                       <p className="text-sm text-muted-foreground">
                         Lorem ipsum dolor sit amet.
                       </p>
